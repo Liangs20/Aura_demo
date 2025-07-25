@@ -32,10 +32,9 @@ protected:
 
 
 private:
-
+	//Overlay控件的实际对象以及类类型，在蓝图中指定
 	UPROPERTY()
 	TObjectPtr<UAuraUserWidget>  OverlayWidget;	
-
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UAuraUserWidget> OverlayWidgetClass;
 
