@@ -17,6 +17,8 @@ class AURA_API UTargetDataUnderMouse : public UAbilityTask
 	GENERATED_BODY()
 public:
 
+	//在蓝图中显示名字为TargetDataUnderMouse函数
+	//HidePin 和 DefaultToSelf： 隐藏 OwningAbility 输入引脚，并默认将其设置为当前蓝图（即能力本身），简化蓝图使用。
 	UFUNCTION(BlueprintCallable, Category="Ability|Tasks", meta = (DisplayName = "TargetDataUnderMouse", HidePin = "OwningAbility", DefaultToSelf = "OwningAbility", BlueprintInternalUseOnly = "true"))
 	static UTargetDataUnderMouse* CreateTargetDataUnderMouse(UGameplayAbility* OwningAbility);
 

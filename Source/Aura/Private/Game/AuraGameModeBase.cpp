@@ -16,6 +16,8 @@
 
 void AAuraGameModeBase::SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex)
 {
+	//UE对存档的检索是通过FString和Index共同确认
+	//保存的流程其实就是把数据都放进SaveGame类后调用全局函数即可
 	if (UGameplayStatics::DoesSaveGameExist(LoadSlot->GetLoadSlotName(), SlotIndex))
 	{
 		UGameplayStatics::DeleteGameInSlot(LoadSlot->GetLoadSlotName(), SlotIndex);
@@ -36,10 +38,12 @@ ULoadScreenSaveGame* AAuraGameModeBase::GetSaveSlotData(const FString& SlotName,
 	USaveGame* SaveGameObject = nullptr;
 	if (UGameplayStatics::DoesSaveGameExist(SlotName, SlotIndex))
 	{
+		//加载已有Slot，注意返回的是SaveGame对象
 		SaveGameObject = UGameplayStatics::LoadGameFromSlot(SlotName, SlotIndex);
 	}
 	else
 	{
+		//创建Slot
 		SaveGameObject = UGameplayStatics::CreateSaveGameObject(LoadScreenSaveGameClass);
 	}
 	ULoadScreenSaveGame* LoadScreenSaveGame = Cast<ULoadScreenSaveGame>(SaveGameObject);

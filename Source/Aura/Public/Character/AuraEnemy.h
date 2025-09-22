@@ -32,10 +32,12 @@ public:
 	/** Combat Interface */
 	virtual int32 GetPlayerLevel_Implementation() override;
 	virtual void Die(const FVector& DeathImpulse) override;
+	//在BTT_Attack中，EventReceivedExecute会传入控制的Pawn即Enemy类，在那里会调用该函数并使用传入黑板键的值设置战斗目标
 	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
+	//在激活GA时调用获取攻击目标
 	virtual AActor* GetCombatTarget_Implementation() const override;
 	/** end Combat Interface */
-
+	
 	UPROPERTY(BlueprintReadWrite, Category = "Combat")
 	TObjectPtr<AActor> CombatTarget;
 
@@ -52,14 +54,14 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	float LifeSpan = 5.f;
-
+	
 	void SetLevel(int32 InLevel) { Level = InLevel; }
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
 	virtual void InitializeDefaultAttributes() const override;
 	virtual void StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount) override;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
 	int32 Level = 1;
 

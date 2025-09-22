@@ -8,6 +8,8 @@
 #include "LoadScreenSaveGame.generated.h"
 
 class UGameplayAbility;
+//以下定义了一个枚举，三个结构体
+//存储的三个Slot的状态：空，正在输入和已创建的存档，对应WBP
 UENUM(BlueprintType)
 enum ESaveSlotStatus
 {

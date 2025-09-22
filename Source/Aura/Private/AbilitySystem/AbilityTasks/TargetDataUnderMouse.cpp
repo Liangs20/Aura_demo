@@ -13,6 +13,7 @@ UTargetDataUnderMouse* UTargetDataUnderMouse::CreateTargetDataUnderMouse(UGamepl
 
 void UTargetDataUnderMouse::Activate()
 {
+	//通过FGameplayAbilityActorInfo的接口判断客户端或服务端
 	const bool bIsLocallyControlled = Ability->GetCurrentActorInfo()->IsLocallyControlled();
 	if (bIsLocallyControlled)
 	{
@@ -20,6 +21,7 @@ void UTargetDataUnderMouse::Activate()
 	}
 	else
 	{
+		//AbilityTask接口可以Get到
 		const FGameplayAbilitySpecHandle SpecHandle = GetAbilitySpecHandle();
 		const FPredictionKey ActivationPredictionKey = GetActivationPredictionKey();
 		AbilitySystemComponent.Get()->AbilityTargetDataSetDelegate(SpecHandle, ActivationPredictionKey).AddUObject(this, &UTargetDataUnderMouse::OnTargetDataReplicatedCallback);
@@ -35,7 +37,7 @@ void UTargetDataUnderMouse::Activate()
 	}
 }
 
-//本地激活AT时调用
+//本地客户端激活AT时调用
 void UTargetDataUnderMouse::SendMouseCursorData()
 {
 	FScopedPredictionWindow ScopedPrediction(AbilitySystemComponent.Get());

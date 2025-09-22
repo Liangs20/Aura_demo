@@ -54,6 +54,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	int32 GetPlayerLevel();
 
+	//没有接口实现，在角色基类重写需要_Implementation后缀（注：BlueprintCallable标注过的函数需要在c++中调用时应该使用Execute_前缀）
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	FVector GetCombatSocketLocation(const FGameplayTag& MontageTag);
 

@@ -32,6 +32,7 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
+	//以下为重写Combat接口的函数
 	/** Combat Interface */
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;	
 	virtual void Die(const FVector& DeathImpulse) override;
@@ -84,6 +85,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
+	//武器尖端Socket的命名，根据这个基于可以找到
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;
 

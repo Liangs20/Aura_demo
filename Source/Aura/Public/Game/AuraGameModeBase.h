@@ -24,12 +24,14 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
 	TObjectPtr<UCharacterClassInfo> CharacterClassInfo;
 
+	//存储Aura的各种技能信息的数据资产
 	UPROPERTY(EditDefaultsOnly, Category = "Ability Info")
 	TObjectPtr<UAbilityInfo> AbilityInfo;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Loot Tiers")
 	TObjectPtr<ULootTiers> LootTiers;
 
+	//基于UGameplayStatics进行存档的保存，获取，删除
 	void SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex);
 	ULoadScreenSaveGame* GetSaveSlotData(const FString& SlotName, int32 SlotIndex) const;
 	static void DeleteSlot(const FString& SlotName, int32 SlotIndex);

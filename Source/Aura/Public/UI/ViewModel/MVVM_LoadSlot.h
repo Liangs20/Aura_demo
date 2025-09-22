@@ -11,7 +11,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSetWidgetSwitcherIndex, int32, Widg
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEnableSelectSlotButton, bool, bEnable);
 
 /**
- * 
+ * 本VM的作用主要在于存储存档的相关信息，而不处理UI方面具体的逻辑，具体功能调用也全由LoadScreen及其VM控制。
  */
 UCLASS()
 class AURA_API UMVVM_LoadSlot : public UMVVMViewModelBase
@@ -19,30 +19,34 @@ class AURA_API UMVVM_LoadSlot : public UMVVMViewModelBase
 	GENERATED_BODY()
 public:
 
+	//当Switcher需要切换显示的WBP时触发该委托，广播要切换的WBP索引，自然于Switcher的BIW函数中绑定回调函数
 	UPROPERTY(BlueprintAssignable)
 	FSetWidgetSwitcherIndex SetWidgetSwitcherIndex;
 
 	UPROPERTY(BlueprintAssignable)
 	FEnableSelectSlotButton EnableSelectSlotButton;
 
+	//根据SlotStatus切换WBP
 	void InitializeSlot();
 
+	//该Slot的索引，012取其一
 	UPROPERTY()
 	int32 SlotIndex;
 
+	//记录下一次要跳转的WBP索引
 	UPROPERTY()
 	TEnumAsByte<ESaveSlotStatus> SlotStatus;
 
+	 //玩家位置
 	UPROPERTY()
 	FName PlayerStartTag;
 
 	UPROPERTY()
 	FString MapAssetName;
 	
-	/** Field Notifies */
-	
-
-
+	/** Field Notifies
+	 * 当 ViewModel 中的属性值发生变化时，通知所有绑定到该属性的 UI 控件进行更新。
+	 */
 	void SetPlayerName(FString InPlayerName);
 	void SetMapName(FString InMapName);
 	void SetPlayerLevel(int32 InLevel);
@@ -54,16 +58,16 @@ public:
 	FString GetLoadSlotName() const { return LoadSlotName; }
 
 private:
-
+	//玩家名
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter, meta = (AllowPrivateAccess="true"));
-	FString PlayerName;
-
+	FString PlayerName = "Aura";
+	//地图名
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter, meta = (AllowPrivateAccess="true"));
 	FString MapName;
-
+	//玩家等级
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter, meta = (AllowPrivateAccess="true"));
 	int32 PlayerLevel;
-
+	//存档名（即LoadSlot_0-LoadSlot_2）
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter, meta = (AllowPrivateAccess="true"));
 	FString LoadSlotName;
 };
