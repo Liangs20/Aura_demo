@@ -8,14 +8,20 @@
 >如下按文件架构划分模块，便于理解项目结构和功能划分。
 
 
-## 一、技能系统模块 
+## 一、技能系统模块
 ### a） 11个Gameplay Ability
+URL类图见
+[GameplayAbility.vsdx](../../../Visio/Store/GameplayAbility.vsdx)
 
 ### b） 1个Ability Task
 
 ### c） 1个异步Task
 
 ### d） 5个数据信息
+
+### e） 1个Debuff特效组件
+
+### f） 
 
 ### 根）4个
 
