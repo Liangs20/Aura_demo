@@ -10,8 +10,8 @@
 
 ## 一、技能系统模块
 ### a） 11个Gameplay Ability
-URL类图见
-[GameplayAbility.vsdx](../../../Visio/Store/GameplayAbility.vsdx)
+URL类图见[GameplayAbility.vsdx](MyNote/GameplayAbility.vsdx)
+
 
 ### b） 1个Ability Task
 
