@@ -8,58 +8,99 @@
 >如下按文件架构划分模块，便于理解项目结构和功能划分。
 
 
-## 一、技能系统模块
+## 一、技能系统模块（AbilitySystem）
 ### a） 11个Gameplay Ability
-URL类图见[GameplayAbility.vsdx](MyNote/GameplayAbility.vsdx)
-
+    继承图如下
+![GameplayAbility.png](MyNote/GameplayAbility.png)
 
 ### b） 1个Ability Task
-
+    名为TargetDataUnderMouse，用于使服务器端接收客户端鼠标位置
 ### c） 1个异步Task
 
 ### d） 5个数据信息
 
 ### e） 1个Debuff特效组件
 
-### f） 
+### f） 1个运行计算式ExecutionCalculation
 
-### 根）4个
+### g） 2个ModifierMagnitudeCalculation修饰符规模计算式
 
-## 二、创生物模块
+### h） 1个被动技能特效组件
+
+### 根）ASC组件、全局配置数据、函数库、属性集AttributeSet
 
 
+## 二、创生物模块（Actor）
+### a） 能施加效果的Actor的基类
+    父类Actor
+### b） 敌人生成点
 
-## 三、AI模块
+### c） 敌人生成区域
 
+### d） 火球
+
+### e） 发射物基类
+
+### f） 魔法圈
+
+### g） 
+
+
+## 三、AI模块（AI）
+### a） AI控制器
+
+### b） 行为树服务——找最近玩家
+
+### c） 行为树任务——攻击
 
 
 ## 四、角色类模块
+### a） 奥拉玩家角色
 
+### b） 角色基类
+
+### c） 敌人类
 
 
 ## 五、检查点模块
+### a） 玩家出生点
 
+### b） 地图入口
 
 
 ## 六、游戏全局模块
+### a） 游戏实例
 
+### b） 游戏模式基类
+
+### c） SaveGame类
 
 
 ## 七、输入模块
+### a） 输入组件
 
+### b） 输入配置
 
 
 ## 八、接口模块
+### a） 
 
 
+## 九、玩家相关模块
+### a）玩家控制器
 
-## 九、玩家控制器和状态模块
-
+### b） 玩家状态
 
 
 ## 十、UI模块
-
+### a）
 
 
 ## 根、全局类模块
+### a） 数据类型
+
+### b） 资产管理类
+
+### c） 游戏标签类
+
 项目中中文注释均为项目开发笔记。
