@@ -232,5 +232,4 @@ if (!bSuppressGameplayCues && bInvokeGameplayCueApplied && AppliedEffect && !App
 
 4. **表现分离**：GE的“逻辑生效”和“视觉表现”通过Gameplay Cue分离，保证逻辑与表现解耦。
 
-如果需要，我可以针对其中**堆叠处理（ApplyGameplayEffectSpec）** 或**Gameplay Cue触发** 做更深入的源码级解析。
 > （注：文档部分内容可能由 AI 生成）
