@@ -6,6 +6,8 @@
 在伤害数值计算上 ，通过 ModifierMagnitudeCalculation 和 ExecutionCalculation 实现了角色各属性的初始化和伤害的公式化计算等 ，涉及到的 AttributeSet 内属性包括护甲穿透、暴击抗性等多种属性。~~
 
 >如下按文件架构划分模块，便于理解项目结构和功能划分。
+按课时的笔记介绍可见https://blog.csdn.net/qq_30100043/category_12552698.html
+项目中中文注释均为项目开发笔记，本md文档仅作图表补充
 
 
 ## 一、技能系统模块（AbilitySystem）
@@ -14,7 +16,7 @@
 ![GameplayAbility.png](MyNote/GameplayAbility.png)
 
 ### b） 1个Ability Task
-    名为TargetDataUnderMouse，用于使服务器端接收客户端鼠标位置
+    
 ### c） 1个异步Task
 
 ### d） 5个数据信息
@@ -28,11 +30,12 @@
 ### h） 1个被动技能特效组件
 
 ### 根）ASC组件、全局配置数据、函数库、属性集AttributeSet
+    
 
 
 ## 二、创生物模块（Actor）
 ### a） 能施加效果的Actor的基类
-    父类Actor
+    
 ### b） 敌人生成点
 
 ### c） 敌人生成区域
@@ -103,4 +106,4 @@
 
 ### c） 游戏标签类
 
-项目中中文注释均为项目开发笔记。
+

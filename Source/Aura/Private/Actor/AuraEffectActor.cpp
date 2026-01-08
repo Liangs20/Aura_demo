@@ -65,8 +65,10 @@ void AAuraEffectActor::StartRotation()
 void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
 	if (TargetActor->ActorHasTag(FName("Enemy")) && !bApplyEffectsToEnemies) return;
-	
+
+	//调用UAbilitySystemGlobals中的全局函数，获取实现了IAbilitySystemInterface接口的Actor的ASC组件
 	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
+	//撞到其他东西直接返回不会销毁
 	if (TargetASC == nullptr) return;
 
 	check(GameplayEffectClass);

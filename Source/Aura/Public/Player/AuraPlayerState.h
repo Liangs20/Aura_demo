@@ -52,10 +52,10 @@ public:
 	void SetSpellPoints(int32 InPoints);
 	
 protected:
-	
+	//主角的组件和数据，我们首先需要先在PlayerState身上设置，然后在characterBase身上去引用PlayerState身上的对应组件和数据
+	//这样，即使character销毁掉，创建新的，我们一样可以获取到修改后的数据。
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
-
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
 

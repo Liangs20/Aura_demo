@@ -63,6 +63,9 @@ class AURA_API UAuraAttributeSet : public UAttributeSet
 	GENERATED_BODY()
 public:
 	UAuraAttributeSet();
+	////AttributeSet的数据加入网络复制和预测需要关键两步（均在public区实现）：
+	//1.实现GetLifetimeReplicatedProps函数并在其中调用DOREPLIFETIME_CONDITION_NOTIFY
+	//2.实现OnRep回调函数，其中调用GAMEPLAYATTRIBUTE_REPNOTIFY
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;

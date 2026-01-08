@@ -31,6 +31,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	);
 
 	//属性变化时触发委托，这个委托允许绑定的函数是单参数const FOnAttributeChangeData&， 委托触发的时候函数接受这个参数从而可获取新值
+	//相当于是把AttributeSet的数据变更委托触发同步到Overlay组件控制器的委托触发，持有该控制器的组件即可感应到数据变更（MVC架构中的控制器逻辑就在此）
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetAuraAS()->GetHealthAttribute()).AddLambda(
 			[this](const FOnAttributeChangeData& Data)
 			{
