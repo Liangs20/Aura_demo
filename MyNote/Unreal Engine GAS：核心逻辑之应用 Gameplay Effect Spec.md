@@ -222,6 +222,73 @@ if (!bSuppressGameplayCues && bInvokeGameplayCueApplied && AppliedEffect && !App
 
 - 作用：Gameplay Cue是GAS中“GE表现层”的核心，负责触发视觉、音效、震动等反馈，区分“首次激活”和“持续生效”两种事件。
 
+#### 11. Gameplay Effect（GE）应用流程的收尾核心逻辑
+```C++
+
+// 至少执行一次该GE（如果是即时类型GE，执行一次后即完成；如果是持续型GE，已在上方添加至ActiveGameplayEffects列表）
+	
+// 如果是即时应用类GE，则执行相关逻辑
+// bTreatAsInfiniteDuration是指客户端且instant类GE
+if (bTreatAsInfiniteDuration)
+{
+	// 这是一个即时应用的GE，但为了客户端预测，我们将其视为无限时长类型。
+	// 仍需预测触发execute阶段的GameplayCue（表现特效）。
+	// （非预测场景下，此逻辑会在::ExecuteGameplayEffect内部执行）
+
+	if (!bSuppressGameplayCues)
+	{
+		UAbilitySystemGlobals::Get().GetGameplayCueManager()->InvokeGameplayCueExecuted_FromSpec(this, *OurCopyOfSpec, PredictionKey);
+	}
+}
+else if (Spec.Def->DurationPolicy == EGameplayEffectDurationType::Instant)
+{
+	if (OurCopyOfSpec->Def->OngoingTagRequirements.IsEmpty())
+	{
+		ExecuteGameplayEffect(*OurCopyOfSpec, PredictionKey);
+	}
+	else
+	{
+		ABILITY_LOG(Warning, TEXT("%s 是即时类型GE但包含标签依赖项。标签依赖仅可用于带时长的GameplayEffect，该GE将被忽略。"), *Spec.Def->GetPathName());
+	}
+}
+
+if (Spec.GetPeriod() != UGameplayEffect::NO_PERIOD && Spec.TargetEffectSpecs.Num() > 0)
+{
+	ABILITY_LOG(Warning, TEXT("%s 是周期性GE，但同时向目标应用了其他GameplayEffect。这些GameplayEffect仅会应用一次，不会随周期重复触发。"), *Spec.Def->GetPathName());
+}
+
+// 评估当前GE应用后，是否需要移除目标身上已有的部分活跃GE
+if (bIsNetAuthority)
+{
+	ActiveGameplayEffects.AttemptRemoveActiveEffectsOnEffectApplication(*OurCopyOfSpec, MyHandle);
+}
+
+// ------------------------------------------------------
+// 应用联动的GameplayEffect（Linked effects）
+// 待办：当前忽略了应用返回的句柄，是否应将这些句柄存入TArray并统一返回？
+// ------------------------------------------------------
+for (const FGameplayEffectSpecHandle& TargetSpec: Spec.TargetEffectSpecs)
+{
+	if (TargetSpec.IsValid())
+	{
+		ApplyGameplayEffectSpecToSelf(*TargetSpec.Data.Get(), PredictionKey);
+	}
+}
+
+UAbilitySystemComponent* InstigatorASC = Spec.GetContext().GetInstigatorAbilitySystemComponent();
+
+// 向自身发送回调通知
+OnGameplayEffectAppliedToSelf(InstigatorASC, *OurCopyOfSpec, MyHandle);
+
+// 向发起者（Instigator）发送回调通知
+if (InstigatorASC)
+{
+	InstigatorASC->OnGameplayEffectAppliedToTarget(this, *OurCopyOfSpec, MyHandle);
+}
+
+return MyHandle;
+```
+
 ### 三、核心总结
 
 1. **校验优先**：GE应用前会经过**网络权限→免疫→属性→概率→标签→自定义规则** 6轮校验，任何一步失败都会直接返回，保证GE生效的合法性；
