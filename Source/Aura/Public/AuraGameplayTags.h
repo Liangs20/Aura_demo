@@ -108,7 +108,7 @@ public:
 
 	//不同伤害和对应伤害类型抗性的标签映射组
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
-	//
+	//伤害和对应负面效果的映射组
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToDebuffs;
 
 	FGameplayTag Effects_HitReact;
