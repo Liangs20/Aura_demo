@@ -12,5 +12,7 @@ public class AuraTarget : TargetRules
 		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_2;
 
 		ExtraModuleNames.AddRange( new string[] { "Aura" } );
+		
+		//WindowsPlatformCompiler = WindowsCompiler.VisualStudio2022;
 	}
 }
