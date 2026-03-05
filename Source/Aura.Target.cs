@@ -13,6 +13,5 @@ public class AuraTarget : TargetRules
 
 		ExtraModuleNames.AddRange( new string[] { "Aura" } );
 		
-		//WindowsPlatformCompiler = WindowsCompiler.VisualStudio2022;
 	}
 }
