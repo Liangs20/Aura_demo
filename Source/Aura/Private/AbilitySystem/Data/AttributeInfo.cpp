@@ -5,7 +5,7 @@
 
 #include "Aura/AuraLogChannels.h"
 
-//提供访问属性信息的公有函数,其中
+//提供根据Tag访问属性信息的公开函数
 FAuraAttributeInfo UAttributeInfo::FindAttributeInfoForTag(const FGameplayTag& AttributeTag, bool bLogNotFound) const
 {
 	for (const FAuraAttributeInfo& Info : AttributeInformation)
