@@ -28,7 +28,7 @@ public:
 	//初始化所有LoadSlot的VM，调用于HUD创建本类的对象后（HUD的BeginPlay中创建本对象和总Widget）
 	void InitializeLoadSlots();
 
-	//选中存档后出发的委托
+	//选中存档后触发的委托
 	UPROPERTY(BlueprintAssignable)
 	FSlotSelected SlotSelected;
 
