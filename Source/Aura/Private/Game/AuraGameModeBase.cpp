@@ -1,6 +1,5 @@
 // Copyright Druid Mechanics
 
-
 #include "Game/AuraGameModeBase.h"
 
 #include "EngineUtils.h"

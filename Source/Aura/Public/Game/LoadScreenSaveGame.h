@@ -18,6 +18,7 @@ enum ESaveSlotStatus
 	Taken
 };
 
+//
 USTRUCT()
 struct FSavedActor
 {
