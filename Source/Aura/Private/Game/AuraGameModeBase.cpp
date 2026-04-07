@@ -13,6 +13,8 @@
 #include "UI/ViewModel/MVVM_LoadSlot.h"
 #include "GameFramework/Character.h"
 
+//注意这里的SlotIndex即为MVVM中的012存档索引，前者在LoadScreen组件蓝图中设置，后者在HUD初始化时设置
+//函数功能为将给定MVVM中的数据存入磁盘
 void AAuraGameModeBase::SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex)
 {
 	//UE对存档的检索是通过FString和Index共同确认

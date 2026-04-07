@@ -64,7 +64,7 @@ public:
 
 	//BlueprintNativeEvent函数旨在被蓝图覆盖，但也有默认的本机实现。声明一个与主函数同名的附加函数，但在末尾添加了_Implementation，这是应该编写代码的地方。
 	//如果找不到Blueprint重写，自动生成的代码将调用“Implementation”方法。下函数在角色基类中重写
-	//注意这并不意味着这函数是函数可调用的，需要并用两个修饰符
+	//注意这并不意味着这函数是蓝图可调用的，需要并用两个修饰符
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UAnimMontage* GetHitReactMontage();
 

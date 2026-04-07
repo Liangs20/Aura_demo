@@ -11,7 +11,7 @@
 
 class USphereComponent;
 /**
- * 
+ *  相对于导航辅助actor，PlayerStart其实就多个Tag和箭头组件
  */
 UCLASS()
 class AURA_API ACheckpoint : public APlayerStart, public ISaveInterface, public IHighlightInterface

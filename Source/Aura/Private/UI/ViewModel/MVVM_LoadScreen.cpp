@@ -34,6 +34,8 @@ UMVVM_LoadSlot* UMVVM_LoadScreen::GetLoadSlotViewModelByIndex(int32 Index) const
 	return LoadSlots.FindChecked(Index);
 }
 
+//这里传入的Slot为LoadScreenWidget的蓝图基类变量，在整体LoadScreen中设置三个子组件的SlotIndex，而自身的SlotIndex为无效变量
+//函数主要功能：更改对应Slot的MVVM，保存到磁盘，更改游戏实例状态变量
 void UMVVM_LoadScreen::NewSlotButtonPressed(int32 Slot, const FString& EnteredName)
 {
 	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this));
@@ -43,6 +45,7 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 Slot, const FString& EnteredNa
 		return;
 	}
 	//由于绑定的存在，这三个Set函数会实时改变Taken中的UI信息
+	//由于GameMode的BeginPlay中在映射Maps中加入了默认MapName和关卡资产的映射，故不必担心此处设置无法Travel
 	LoadSlots[Slot]->SetMapName(AuraGameMode->DefaultMapName);
 	LoadSlots[Slot]->SetPlayerName(EnteredName);
 	LoadSlots[Slot]->SetPlayerLevel(1);
@@ -57,11 +60,11 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 Slot, const FString& EnteredNa
 	//之前设置SlotStatus在这起作用，跳转到Taken界面
 	LoadSlots[Slot]->InitializeSlot();
 
-	//游戏实例中存储LoadSlot的命名和索引，
-	UAuraGameInstance* AuraGameInstance = Cast<UAuraGameInstance>(AuraGameMode->GetGameInstance());
+	//游戏实例中存储LoadSlot的命名和索引，以便后续保存（基本确认为多余）
+	/*UAuraGameInstance* AuraGameInstance = Cast<UAuraGameInstance>(AuraGameMode->GetGameInstance());
 	AuraGameInstance->LoadSlotName = LoadSlots[Slot]->GetLoadSlotName();
 	AuraGameInstance->LoadSlotIndex = LoadSlots[Slot]->SlotIndex;
-	AuraGameInstance->PlayerStartTag = AuraGameMode->DefaultPlayerStartTag;
+	AuraGameInstance->PlayerStartTag = AuraGameMode->DefaultPlayerStartTag;*/
 }
 
 void UMVVM_LoadScreen::NewGameButtonPressed(int32 Slot)
@@ -95,6 +98,7 @@ void UMVVM_LoadScreen::DeleteButtonPressed()
 		SlotSelected.Broadcast(false);
 		AAuraGameModeBase::DeleteSlot(SelectedSlot->GetLoadSlotName(), SelectedSlot->SlotIndex);
 		SelectedSlot->SlotStatus = Vacant;
+		//通知刷新widget
 		SelectedSlot->InitializeSlot();
 		SelectedSlot->EnableSelectSlotButton.Broadcast(true);
 		SelectedSlot->SetPlayerName("Aura");

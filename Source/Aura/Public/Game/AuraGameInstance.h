@@ -15,7 +15,7 @@ class AURA_API UAuraGameInstance : public UGameInstance
 	GENERATED_BODY()
 public:
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	FName PlayerStartTag = FName();
 
 	UPROPERTY()

@@ -3,6 +3,7 @@
 
 #include "UI/ViewModel/MVVM_LoadSlot.h"
 
+//刷新操作会将组件切换器跳转到当前设置的SlotStatus界面
 void UMVVM_LoadSlot::InitializeSlot()
 {
 	const int32 WidgetSwitcherIndex = SlotStatus.GetValue();

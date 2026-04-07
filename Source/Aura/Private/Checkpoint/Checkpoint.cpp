@@ -45,6 +45,7 @@ void ACheckpoint::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 	{
 		bReached = true;
 
+		//保存世界状态
 		if (AAuraGameModeBase* AuraGM = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this)))
 		{
 			const UWorld* World = GetWorld();
@@ -53,8 +54,9 @@ void ACheckpoint::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 			
 			AuraGM->SaveWorldState(GetWorld(), MapName);
 		}
-		
+		//保存玩家状态
 		IPlayerInterface::Execute_SaveProgress(OtherActor, PlayerStartTag);
+		//通过动态实例发光
 		HandleGlowEffects();
 	}
 }
@@ -87,10 +89,12 @@ void ACheckpoint::UnHighlightActor_Implementation()
 	CheckpointMesh->SetRenderCustomDepth(false);
 }
 
+//蓝图中触发重叠后调用
 void ACheckpoint::HandleGlowEffects()
 {
+	//后续经过不再保存
 	Sphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	UMaterialInstanceDynamic* DynamicMaterialInstace = UMaterialInstanceDynamic::Create(CheckpointMesh->GetMaterial(0), this);
-	CheckpointMesh->SetMaterial(0, DynamicMaterialInstace);
-	CheckpointReached(DynamicMaterialInstace);
+	UMaterialInstanceDynamic* DynamicMaterialInstance = UMaterialInstanceDynamic::Create(CheckpointMesh->GetMaterial(0), this);
+	CheckpointMesh->SetMaterial(0, DynamicMaterialInstance);
+	CheckpointReached(DynamicMaterialInstance);
 }

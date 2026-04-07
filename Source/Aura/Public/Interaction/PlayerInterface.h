@@ -20,7 +20,7 @@ class AURA_API IPlayerInterface
 {
 	GENERATED_BODY()
 
-	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
+	// 接口中的函数都有NativeEvent标签来确保它们在之后能被实现
 public:
 
 	UFUNCTION(BlueprintNativeEvent)

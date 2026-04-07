@@ -128,7 +128,7 @@ protected:
 
 	void AddCharacterAbilities() const;
 
-	/* Dissolve Effects */
+	/* 溶解 Effects */
 
 	void Dissolve();
 

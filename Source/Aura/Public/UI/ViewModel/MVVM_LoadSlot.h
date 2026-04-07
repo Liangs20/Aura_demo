@@ -41,6 +41,7 @@ public:
 	UPROPERTY()
 	FName PlayerStartTag;
 
+	//地图资产名
 	UPROPERTY()
 	FString MapAssetName;
 	
@@ -58,6 +59,9 @@ public:
 	FString GetLoadSlotName() const { return LoadSlotName; }
 
 private:
+	//Getter：规定“UI/绑定系统读这个属性时，走哪个函数”
+	//Setter：规定“UI/绑定系统写这个属性时，走哪个函数”
+	//FieldNotify：规定“值变了以后，自动通知界面刷新”
 	//玩家名
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter, meta = (AllowPrivateAccess="true"));
 	FString PlayerName = "Aura";
