@@ -7,7 +7,7 @@
 #include "ArcaneShards.generated.h"
 
 /**
- * 
+ * 奥术碎片，实装技能
  */
 UCLASS()
 class AURA_API UArcaneShards : public UAuraDamageGameplayAbility

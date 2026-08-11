@@ -301,7 +301,7 @@ void UAuraAttributeSet::HandleIncomingXP(const FEffectProperties& Props)
 void UAuraAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue)
 {
 	Super::PostAttributeChange(Attribute, OldValue, NewValue);
-
+	//这里的逻辑是当玩家升级时，MaxHealth和MaxMana会增加，此时需要将当前的Health和Mana补满
 	if (Attribute == GetMaxHealthAttribute() && bTopOffHealth)
 	{
 		SetHealth(GetMaxHealth());

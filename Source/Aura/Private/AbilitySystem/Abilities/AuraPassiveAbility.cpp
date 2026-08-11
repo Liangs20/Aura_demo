@@ -6,6 +6,17 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 
+FString UAuraPassiveAbility::GetDescription(int32 Level)
+{
+	return PassiveAbilityDescription(Level);
+}
+
+FString UAuraPassiveAbility::GetNextLevelDescription(int32 Level)
+{
+
+	return PassiveAbilityNextDescription(Level);
+}
+
 void UAuraPassiveAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                           const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
                                           const FGameplayEventData* TriggerEventData)

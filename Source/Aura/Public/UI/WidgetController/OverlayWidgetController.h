@@ -41,7 +41,9 @@ class AURA_API UOverlayWidgetController : public UAuraWidgetController
 {
 	GENERATED_BODY()
 public:
+	//调用于InitOverlay函数（再上一层为character的initActorinfo），作用是血法值及其上限的初始化
 	virtual void BroadcastInitialValues() override;
+	//在HUD的InitOverlay函数中，蓝图函数库首次获取并创建本控制器并调用该函数（显然执行于上面这个函数之前）
 	virtual void BindCallbacksToDependencies() override;
 
 	//在进度条WBP中绑定事件到这些委托

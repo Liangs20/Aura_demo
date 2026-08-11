@@ -56,9 +56,11 @@ public:
 	virtual void BroadcastInitialValues();
 	virtual void BindCallbacksToDependencies();
 
+	//用于给ASC的所有Abilitie触发一次AbilityInfoDelegate，蓝图端会给这个委托绑定回调从而更新UI
 	UPROPERTY(BlueprintAssignable, Category="GAS|Messages")
 	FAbilityInfoSignature AbilityInfoDelegate;
 
+	//对ASC中所有AbilitySpec调用，用途是通知各层级UI技能信息和状态的变动
 	void BroadcastAbilityInfo();
 protected:
 

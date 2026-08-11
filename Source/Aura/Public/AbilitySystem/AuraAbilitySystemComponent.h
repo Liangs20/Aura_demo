@@ -41,11 +41,15 @@ public:
 	void AbilityInputTagPressed(const FGameplayTag& InputTag);
 	void AbilityInputTagHeld(const FGameplayTag& InputTag);
 	void AbilityInputTagReleased(const FGameplayTag& InputTag);
+	//作用是遍历所有可激活的技能（ActivatableAbilities），对每个技能执行传入的委托回调
 	void ForEachAbility(const FForEachAbility& Delegate);
 
+	//遍历Spec中的Ability的AbilityTags，根据匹配返回Ability开头的Tag（这些Tag是在蓝图中手动添加的）
 	static FGameplayTag GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
+	//下面两个则遍历的是Spec中的DynamicAbilityTags，分别返回InputTag和StatusTag（这些Tag是在）
 	static FGameplayTag GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 	static FGameplayTag GetStatusFromSpec(const FGameplayAbilitySpec& AbilitySpec);
+
 	FGameplayTag GetStatusFromAbilityTag(const FGameplayTag& AbilityTag);
 	FGameplayTag GetSlotFromAbilityTag(const FGameplayTag& AbilityTag);
 	bool SlotIsEmpty(const FGameplayTag& Slot);
@@ -62,9 +66,11 @@ public:
 
 	void UpgradeAttribute(const FGameplayTag& AttributeTag);
 
+	//Server是为了了安全性，防止客户端作弊，Reliable是为了确保升级属性的请求一定会被服务器处理
 	UFUNCTION(Server, Reliable)
 	void ServerUpgradeAttribute(const FGameplayTag& AttributeTag);
 
+	//在initAbilityActor时绑定到角色类等级提升回调，等级提升时Ability赋予给ASC，通过Tag管理状态
 	void UpdateAbilityStatuses(int32 Level);
 
 	UFUNCTION(Server, Reliable)

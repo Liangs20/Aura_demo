@@ -82,23 +82,18 @@
 | 元属性 | 经验值（`IncomingXP`）、受到的伤害（`IncomingDamage`） |
 
 利用 `TMap<FGameplayTag, TStaticFuncPtr<FGameplayAttribute()>>` 建立标签到属性获取函数的映射，便于在 UI 和数据驱动流程中统一通过标签访问任意属性。
-### a） AI控制器
----
-### b） 行为树服务——找最近玩家
+
 ### 五、UI 系统 — MVC + MVVM 双模式
-### c） 行为树任务——攻击
 **MVC 部分（游戏内 HUD）：**
 - `AuraWidgetController` 基类持有 PlayerController / PlayerState / ASC / AttributeSet 四组件引用
 - 派生出 `OverlayWidgetController`（血条、法力条、经验条、浮动消息）、`AttributeMenuWidgetController`（属性菜单）、`SpellMenuWidgetController`（技能树）
 - 通过多播委托将属性变化、技能状态变化、经验/升级事件实时广播至 Widget
-### c） 行为树任务——攻击
+
 **MVVM 部分（存档界面）：**
 - 引入 UE5 **UMG ViewModel** 插件，`MVVM_LoadScreen` / `MVVM_LoadSlot` 作为视图模型
 - 支持 3 个存档槽位，包含新建、选择、删除、开始等完整存档操作
 - Widget 通过 `PropertyPath` 绑定视图模型属性，实现数据与视图的自动同步
-### a） 奥拉玩家角色
-### a） 奥拉玩家角色
-### a） 奥拉玩家角色
+
 
 ---
 

@@ -5,6 +5,7 @@
 
 class UGameplayEffect;
 
+//用来传递伤害相关参数的结构体
 USTRUCT(BlueprintType)
 struct FDamageEffectParams
 {
@@ -48,9 +49,11 @@ struct FDamageEffectParams
 	UPROPERTY(BlueprintReadWrite)
 	float DeathImpulseMagnitude = 0.f;
 
+	//伤害会给目标一个对应方向上的冲量
 	UPROPERTY(BlueprintReadWrite)
 	FVector DeathImpulse = FVector::ZeroVector;
 
+	//击飞效果的力度
 	UPROPERTY(BlueprintReadWrite)
 	float KnockbackForceMagnitude = 0.f;
 

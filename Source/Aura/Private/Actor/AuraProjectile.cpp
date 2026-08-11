@@ -72,13 +72,16 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 	if (!IsValidOverlap(OtherActor)) return;
 	if (!bHit) OnHit();
 	
+	//仅在网络端执行，客户端只负责播放特效和声音，服务器负责应用伤害和销毁弹道
 	if (HasAuthority())
 	{
 		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
 		{
+			//有些DamageEffectParams的参数是要在
 			const FVector DeathImpulse = GetActorForwardVector() * DamageEffectParams.DeathImpulseMagnitude;
 			DamageEffectParams.DeathImpulse = DeathImpulse;
 			const bool bKnockback = FMath::RandRange(1, 100) < DamageEffectParams.KnockbackChance;
+			//击飞效果实现：修改参数中的KnockbackForce，使其有一个对应方向上的分量，应用伤害效果时会根据这个参数给目标施加一个击飞的冲量
 			if (bKnockback)
 			{
 				FRotator Rotation = GetActorRotation();
@@ -90,6 +93,7 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 			}
 			
 			DamageEffectParams.TargetAbilitySystemComponent = TargetASC;
+			//参数收集完成，应用GE！
 			UAuraAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
 		}
 		

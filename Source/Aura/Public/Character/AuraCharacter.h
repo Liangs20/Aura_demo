@@ -65,6 +65,7 @@ private:
 	
 	virtual void InitAbilityActorInfo() override;
 
+	//需求是：当玩家升级时，所有客户端都能看到升级特效，所以需要Multicast函数来实现这个功能
 	UFUNCTION(NetMulticast, Reliable)
 	void MulticastLevelUpParticles() const;
 };

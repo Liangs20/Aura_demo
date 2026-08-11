@@ -21,11 +21,12 @@ class AURA_API AAuraHUD : public AHUD
 {
 	GENERATED_BODY()
 public:
-
+	//调用于蓝图函数库中，再上一层调用于各控件的构造函数中，类似于懒汉式
 	UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParams& WCParams);
 	UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const FWidgetControllerParams& WCParams);
 	USpellMenuWidgetController* GetSpellMenuWidgetController(const FWidgetControllerParams& WCParams);
 
+	//HUD创建于GameMode的PostLogin中，但本初始化函数执行于character的initAbilityActorInfo中
 	void InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS);
 
 protected:

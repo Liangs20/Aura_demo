@@ -29,6 +29,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void UnHighlightActor();
 
+	//功能是当玩家点击地面时，玩家角色会移动到点击的位置，这个函数的功能就是提供一个接口，让玩家角色知道要移动到哪里
 	UFUNCTION(BlueprintNativeEvent)
 	void SetMoveToLocation(FVector& OutDestination);
 };

@@ -13,7 +13,8 @@ struct FGameplayEffectSpec;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCooldownChangeSignature, float, TimeRemaining);
 
 /**
- * 
+ * 这个类的作用是当ASC上某个CooldownTag的状态发生改变时，触发对应的委托，分别是CooldownStart和CooldownEnd
+ * UBlueprintAsyncActionBase的作用是当我们在蓝图中调用WaitForCooldownChange函数时，创建一个UWaitCooldownChange对象，并绑定对应的委托，当满足条件时触发委托，最后调用EndTask函数销毁对象
  */
 UCLASS(BlueprintType, meta = (ExposedAsyncProxy = "AsyncTask"))
 class AURA_API UWaitCooldownChange : public UBlueprintAsyncActionBase

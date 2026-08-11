@@ -14,7 +14,7 @@
 #include "UI/HUD/AuraHUD.h"
 #include "UI/WidgetController/AuraWidgetController.h"
 
-//根据当前世界的某个对象获取当前HUD以及四参数
+//根据当前世界的某个对象获取当前HUD以及四参数（基于0号玩家控制器依次获取PC、PS、ASC和AS）
 bool UAuraAbilitySystemLibrary::MakeWidgetControllerParams(const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, AAuraHUD*& OutAuraHUD)
 {
 	if (APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
@@ -515,6 +515,7 @@ FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const 
 	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 	const AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
 	
+	//由于项目设置，这里调用ASC层级的MakeEffectContext返回的是自定义的AuraGEContext实例
 	FGameplayEffectContextHandle EffectContexthandle = DamageEffectParams.SourceAbilitySystemComponent->MakeEffectContext();
 	EffectContexthandle.AddSourceObject(SourceAvatarActor);
 	SetDeathImpulse(EffectContexthandle, DamageEffectParams.DeathImpulse);
@@ -527,6 +528,7 @@ FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const 
 	
 	const FGameplayEffectSpecHandle SpecHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeOutgoingSpec(DamageEffectParams.DamageGameplayEffectClass, DamageEffectParams.AbilityLevel, EffectContexthandle);
 
+	//这些SetByCaller的tag和值映射被写入了Spec的数组中，Modifier的SetByCaller和Execution都可以访问并使用这个数组，而这个项目中是后者在使用
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DamageEffectParams.DamageType, DamageEffectParams.BaseDamage);
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Debuff_Chance, DamageEffectParams.DebuffChance);
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Debuff_Damage, DamageEffectParams.DebuffDamage);
@@ -537,6 +539,7 @@ FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const 
 	return EffectContexthandle;
 }
 
+//这个函数
 TArray<FRotator> UAuraAbilitySystemLibrary::EvenlySpacedRotators(const FVector& Forward, const FVector& Axis, float Spread, int32 NumRotators)
 {
 	TArray<FRotator> Rotators;
@@ -562,6 +565,7 @@ TArray<FVector> UAuraAbilitySystemLibrary::EvenlyRotatedVectors(const FVector& F
 {
 	TArray<FVector> Vectors;
 	
+	//forward绕竖直轴旋转一半张角得到的即为最左边弹道向量
 	const FVector LeftOfSpread = Forward.RotateAngleAxis(-Spread / 2.f, Axis);
 	if (NumVectors > 1)
 	{

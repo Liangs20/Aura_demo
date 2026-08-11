@@ -59,7 +59,7 @@ public:
 	void PlayButtonPressed();
 	//退出按钮的逻辑直接写在BP_LoadScreen中
 
-	//
+	//界面HUD生成并初始化本MVVM后时调用，作用是从存档中加载数据并更新界面显示
 	void LoadData();
 
 	void SetNumLoadSlots(int32 InNumLoadSlots);
@@ -83,7 +83,7 @@ private:
 	UPROPERTY()
 	UMVVM_LoadSlot* SelectedSlot;
 
-	//
+	//界面显示的Slot数量（比如从0个变成3个时，界面上会出现三个Slot），在本项目中这个值始终为3
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter, meta = (AllowPrivateAccess="true"));
 	int32 NumLoadSlots;
 };

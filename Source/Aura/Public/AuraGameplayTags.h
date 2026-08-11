@@ -108,15 +108,17 @@ public:
 
 	//不同伤害和对应伤害类型抗性的标签映射组
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
-	//伤害和对应负面效果的映射组
+	//伤害和对应负面效果的映射组，如GameplayTags.Damage_Fire, GameplayTags.Debuff_Burn的映射
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToDebuffs;
 
 	FGameplayTag Effects_HitReact;
 
-	FGameplayTag Player_Block_InputPressed;
-	FGameplayTag Player_Block_InputHeld;
-	FGameplayTag Player_Block_InputReleased;
-	FGameplayTag Player_Block_CursorTrace;
+	// 玩家输入阻断标签，当ASC持有这些标签时，对应的输入处理会被跳过
+	// 使用场景：眩晕(Stun)Debuff期间，通过GE(服务端)或OnRep_Stunned(客户端)将这四个标签全部添加到ASC上，从而在眩晕期间完全禁用玩家的所有输入和光标追踪
+	FGameplayTag Player_Block_InputPressed;  // 阻断AbilityInputTagPressed和Move：禁止技能按下触发和WASD移动
+	FGameplayTag Player_Block_InputHeld;     // 阻断AbilityInputTagHeld：禁止技能持续触发(含LMB长按移动和技能激活)
+	FGameplayTag Player_Block_InputReleased; // 阻断AbilityInputTagReleased：禁止技能松开触发(含LMB短按寻路点击移动)
+	FGameplayTag Player_Block_CursorTrace;   // 阻断CursorTrace：禁止光标射线检测(取消当前高亮并清空目标Actor缓存)
 
 	FGameplayTag GameplayCue_FireBlast;
 

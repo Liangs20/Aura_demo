@@ -143,10 +143,12 @@ void AAuraPlayerController::CursorTrace()
 
 void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
+	//如果ASC存在且具有Player_Block_InputPressed标签，则阻止输入
 	if (GetASC() && GetASC()->HasMatchingGameplayTag(FAuraGameplayTags::Get().Player_Block_InputPressed))
 	{
 		return;
 	}
+	//更改TargetingStatus和autoRunning以便于寻路逻辑
 	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
 		if (IsValid(ThisActor))
@@ -168,19 +170,16 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 	{
 		return;
 	}
-	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
-	{
-		if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
-		return;
-	}
-
 	if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
+	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))	return;
 	
+	//鼠标左键附加处理逻辑
 	if (TargetingStatus != ETargetingStatus::TargetingEnemy && !bShiftKeyDown)
 	{
 		const APawn* ControlledPawn = GetPawn();
 		if (FollowTime <= ShortPressThreshold && ControlledPawn)
 		{
+			//如果点击的地点有Actor且实现了高亮接口，则调用接口方法移动到这个Actor指定的位置（目前Enemy不处理，checkpoint生效）
 			if (IsValid(ThisActor) && ThisActor->Implements<UHighlightInterface>())
 			{
 				IHighlightInterface::Execute_SetMoveToLocation(ThisActor, CachedDestination);
@@ -189,9 +188,11 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 			{
 				UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
 			}
+			//通过导航寻路系统获取路径
 			if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
 			{
 				Spline->ClearSplinePoints();
+				//把寻路路径上的点添加到样条组件上，后续AutoRun自动寻路逻辑会沿着样条组件移动
 				for (const FVector& PointLoc : NavPath->PathPoints)
 				{
 					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
@@ -268,7 +269,7 @@ void AAuraPlayerController::BeginPlay()
 void AAuraPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
-	//这里基于Actor头文件的InputComponent在InputConfig中配置了默认值为Aura输入组件
+	//项目设置中更改默认输入组件，底层修改为DefaultInput.ini文件
 	UAuraInputComponent* AuraInputComponent = CastChecked<UAuraInputComponent>(InputComponent);
 	AuraInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
 	AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &AAuraPlayerController::ShiftPressed);

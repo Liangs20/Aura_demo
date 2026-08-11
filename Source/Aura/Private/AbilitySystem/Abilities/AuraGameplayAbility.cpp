@@ -7,17 +7,17 @@
 
 FString UAuraGameplayAbility::GetDescription(int32 Level)
 {
-	return FString::Printf(TEXT("<Default>%s, </><Level>%d</>"), L"Default Ability Name - LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum", Level);
+	return FString::Printf(TEXT("<Default>默认技能名称，</><Level>%d</>"), Level);
 }
 
 FString UAuraGameplayAbility::GetNextLevelDescription(int32 Level)
 {
-	return FString::Printf(TEXT("<Default>Next Level: </><Level>%d</> \n<Default>Causes much more damage. </>"), Level);
+	return FString::Printf(TEXT("<Default>下一级：</><Level>%d</>\n<Default>造成更高的伤害。</>"), Level);
 }
 
 FString UAuraGameplayAbility::GetLockedDescription(int32 Level)
 {
-	return FString::Printf(TEXT("<Default>Spell Locked Until Level: %d</>"), Level);
+	return FString::Printf(TEXT("<Default>技能将在等级 %d 时解锁</>"), Level);
 }
 
 float UAuraGameplayAbility::GetManaCost(float InLevel) const

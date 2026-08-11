@@ -78,12 +78,15 @@ void UAuraAbilitySystemComponent::AddCharacterPassiveAbilities(const TArray<TSub
 void UAuraAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& InputTag)
 {
 	if (!InputTag.IsValid()) return;
+	//这里创建了一个锁，防止在遍历技能列表的时候有技能被移除导致访问越界
 	FScopedAbilityListLock ActiveScopeLoc(*this);
 	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
 		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))
 		{
+			//这一行的作用是把输入事件转发到能力实例中，调用Ability的InputPressed事件
 			AbilitySpecInputPressed(AbilitySpec);
+			//再判断技能是否激活，如果已经激活
 			if (AbilitySpec.IsActive())
 			{
 				InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputPressed, AbilitySpec.Handle, AbilitySpec.ActivationInfo.GetActivationPredictionKey());
@@ -125,6 +128,7 @@ void UAuraAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& In
 
 void UAuraAbilitySystemComponent::ForEachAbility(const FForEachAbility& Delegate)
 {
+	//加锁防止遍历的时候有AbilitySpec被移除
 	FScopedAbilityListLock ActiveScopeLock(*this);
 	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
@@ -317,6 +321,7 @@ void UAuraAbilitySystemComponent::ServerSpendSpellPoint_Implementation(const FGa
 		}
 		
 		const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
+		//技能的状态是通过Spec上挂载的Status类型Tag实现区分的
 		FGameplayTag Status = GetStatusFromSpec(*AbilitySpec);
 		if (Status.MatchesTagExact(GameplayTags.Abilities_Status_Eligible))
 		{
@@ -329,6 +334,7 @@ void UAuraAbilitySystemComponent::ServerSpendSpellPoint_Implementation(const FGa
 			AbilitySpec->Level += 1;
 		}
 		ClientUpdateAbilityStatus(AbilityTag, Status, AbilitySpec->Level);
+		//更改AbilitySpec后需要手动标记为脏，这个同步和ASC同步是独立的
 		MarkAbilitySpecDirty(*AbilitySpec);
 	}
 }

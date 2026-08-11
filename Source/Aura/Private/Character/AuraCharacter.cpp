@@ -242,6 +242,7 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
 
 		if (!HasAuthority()) return;
 
+		//在服务器端进行能力保存与广播
 		UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent);
 		FForEachAbility SaveAbilityDelegate;
 		SaveData->SavedAbilities.Empty();

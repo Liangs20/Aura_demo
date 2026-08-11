@@ -35,6 +35,7 @@ protected:
 	virtual void OnHit();
 	virtual void Destroyed() override;
 
+	//Overlap事件函数，在BeginPlay中绑定到Sphere组件的OnComponentBeginOverlap事件上
 	UFUNCTION()
 	virtual void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 

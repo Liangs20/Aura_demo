@@ -15,8 +15,10 @@ void USpellMenuWidgetController::BroadcastInitialValues()
 
 void USpellMenuWidgetController::BindCallbacksToDependencies()
 {
+	//ASC中技能状态改变绑定回调
 	GetAuraASC()->AbilityStatusChanged.AddLambda([this](const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 NewLevel)
 	{
+		//如果是正在选中的能力状态改变了
 		if (SelectedAbility.Ability.MatchesTagExact(AbilityTag))
 		{
 			SelectedAbility.Status = StatusTag;
@@ -28,7 +30,7 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 			GetAuraASC()->GetDescriptionsByAbilityTag(AbilityTag, Description, NextLevelDescription);
 			SpellGlobeSelectedDelegate.Broadcast(bEnableSpendPoints, bEnableEquip, Description, NextLevelDescription);
 		}
-		
+		//更新控制器中的的AbilityInfo资产
 		if (AbilityInfo)
 		{
 			FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
@@ -56,6 +58,7 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 
 void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityTag)
 {
+	//如果现在是选中技能准备装配的状态，那么再次选中技能就相当于取消装配，停止等待装配选择的委托广播，并传入正在取消装配的技能类型
 	if (bWaitingForEquipSelection)
 	{
 		const FGameplayTag SelectedAbilityType = AbilityInfo->FindAbilityInfoForTag(AbilityTag).AbilityType;

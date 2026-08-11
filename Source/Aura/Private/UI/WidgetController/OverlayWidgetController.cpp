@@ -22,6 +22,7 @@ void UOverlayWidgetController::BroadcastInitialValues()
 
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {
+	//从PlayerState委托获取信息绑定回调
 	GetAuraPS()->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
 	GetAuraPS()->OnLevelChangedDelegate.AddLambda(
 		[this](int32 NewLevel, bool bLevelUp)
@@ -57,6 +58,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 			}
 		);
 
+	//AuraASC特有
 	if (GetAuraASC())
 	{
 		GetAuraASC()->AbilityEquipped.AddUObject(this, &UOverlayWidgetController::OnAbilityEquipped);

@@ -17,7 +17,7 @@ class UAttributeMenuWidgetController;
 class UOverlayWidgetController;
 struct FWidgetControllerParams;
 /**
- * BFL是提供一些静态函数，使得调用World层级的对象更加方便
+ * BFL提供一些静态函数，使得调用World层级的对象更加方便
  */
 UCLASS()
 class AURA_API UAuraAbilitySystemLibrary : public UBlueprintFunctionLibrary
@@ -32,13 +32,14 @@ public:
 	UFUNCTION(BlueprintPure, Category="AuraAbilitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
 	static bool MakeWidgetControllerParams(const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, AAuraHUD*& OutAuraHUD);
 
+	//这三个函数都在HUD中有对应版本，注意传入WidgetControllerParams中的四参数即可
 	//利用GameStatics库函数获取世界中第一个玩家控制器，进而获取AuraHUD调用Get函数
 	UFUNCTION(BlueprintPure, Category="AuraAbilitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
 	static UOverlayWidgetController* GetOverlayWidgetController(const UObject* WorldContextObject);
 	//获取属性菜单组件控制器
 	UFUNCTION(BlueprintPure, Category="AuraAbilitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
 	static UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const UObject* WorldContextObject);
-
+	//获取技能菜单组件控制器
 	UFUNCTION(BlueprintPure, Category="AuraAbilitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
 	static USpellMenuWidgetController* GetSpellMenuWidgetController(const UObject* WorldContextObject);
 
@@ -52,9 +53,11 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|CharacterClassDefaults")
 	static void InitializeDefaultAttributesFromSaveData(const UObject* WorldContextObject, UAbilitySystemComponent* ASC, ULoadScreenSaveGame* SaveGame);
+	
 	//对标Aura是在PossessedBy函数中调用的AddCharacterAbilities，提供一个方式给怪物类添加初始GE
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|CharacterClassDefaults")
 	static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC, ECharacterClass CharacterClass);
+	
 	//由世界场景中任意对象获取怪物类信息，如属性初始化GE、伤害计算属性系数等
 	//注意：GameMode仅在服务器端存在，因此这个函数在客户端调用的话必定会返回nullptr
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|CharacterClassDefaults")
@@ -165,12 +168,14 @@ public:
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayMechanics")
 	static bool IsNotFriend(AActor* FirstActor, AActor* SecondActor);
 
+	//基于伤害参数结构体应用伤害效果，返回生成的EffectContextHandle以供后续访问
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|DamageEffect")
 	static FGameplayEffectContextHandle ApplyDamageEffect(const FDamageEffectParams& DamageEffectParams);
 
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayMechanics")
 	static TArray<FRotator> EvenlySpacedRotators(const FVector& Forward, const FVector& Axis, float Spread, int32 NumRotators);
 
+	//给定发射角度的正前方，生成扇形发射向量组
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayMechanics")
 	static TArray<FVector> EvenlyRotatedVectors(const FVector& Forward, const FVector& Axis, float Spread, int32 NumVectors);
 

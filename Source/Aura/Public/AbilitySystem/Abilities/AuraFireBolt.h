@@ -7,7 +7,7 @@
 #include "AuraFireBolt.generated.h"
 
 /**
- * 
+ * 火球术，实装技能
  */
 UCLASS()
 class AURA_API UAuraFireBolt : public UAuraProjectileSpell

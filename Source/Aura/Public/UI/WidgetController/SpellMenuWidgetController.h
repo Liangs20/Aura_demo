@@ -26,12 +26,15 @@ class AURA_API USpellMenuWidgetController : public UAuraWidgetController
 {
 	GENERATED_BODY()
 public:
+	//蓝图中WBP构造事件后会创建控制器并调用该函数
 	virtual void BroadcastInitialValues() override;
+	//调用于蓝图函数库首次创建并获取本控制器时
 	virtual void BindCallbacksToDependencies() override;
 
 	UPROPERTY(BlueprintAssignable)
 	FOnPlayerStateChangedSignature SpellPointsChanged;
 
+	//四参数分别为：消耗技能点按钮是否可用，配备按钮是否可用，技能描述，技能下一级描述
 	UPROPERTY(BlueprintAssignable)
 	FSpellGlobeSelectedSignature SpellGlobeSelectedDelegate;
 

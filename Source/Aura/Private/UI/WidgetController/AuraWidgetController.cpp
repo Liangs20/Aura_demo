@@ -31,6 +31,9 @@ void UAuraWidgetController::BroadcastAbilityInfo()
 {
 	if (!GetAuraASC()->bStartupAbilitiesGiven) return;
 
+	//这个广播绑定一个匿名函数用于从AbilityInfo数据资产中获取Spec对应的Info
+	//并将其中的输入tag状态tag都设置为ASC中ActivatableAbilities数组中对应的AbilitySpec的Dynamic标签
+	//最后触发控制器中的AbilityInfoDelegate
 	FForEachAbility BroadcastDelegate;
 	BroadcastDelegate.BindLambda([this](const FGameplayAbilitySpec& AbilitySpec)
 	{
@@ -39,6 +42,7 @@ void UAuraWidgetController::BroadcastAbilityInfo()
 		Info.StatusTag = AuraAbilitySystemComponent->GetStatusFromSpec(AbilitySpec);
 		AbilityInfoDelegate.Broadcast(Info);
 	});
+	//对ASC中的每个能力都执行一遍上述匿名函数的流程
 	GetAuraASC()->ForEachAbility(BroadcastDelegate);
 }
 
